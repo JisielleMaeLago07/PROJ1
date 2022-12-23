@@ -2,7 +2,7 @@
 title: "Individual Project"
 author: "Jisielle Mae Lago"
 date: "2022-12-22"
-output: pdf_document
+output: html_document
 ---
 
 ```{r}
@@ -21,8 +21,11 @@ library(slam)
 library(wordcloud)
 library(wordcloud2)
 library(corpus)
+```
 
 #Extract from twitter using your developer's credentials.Choose any keyword you want.
+
+```{r}
 CONSUMER_SECRET <-"3Qc7R1DNGW32hzXXJFZoOyWyDMAMh05MC5RVDt4SY6JKtUb9kw"
 CONSUMER_KEY <- "DKCugN5aVwJGDxS5fM8SvqyHz"
 ACCESS_SECRET <- "TrGLcnSdYbgQL8bu0orXaqptx868NErd0sXSEunZddwHc"
@@ -43,8 +46,10 @@ trendTweets <- searchTwitter("#food -filter:retweets",
                              retryOnRateLimit=120)
 trendTweets
 
+```
+
+```{r}
 trendTweetsDF <- twListToDF(trendTweets)
-View(trendTweetsDF)
 head(trendTweetsDF, n= 5)
 names(trendTweetsDF)
 class(trendTweetsDF)
@@ -59,7 +64,12 @@ sapply(trendTweetsDF, function(x) sum(is.na(x)))
 trending_twt <- trendTweetsDF %>% 
   select(screenName, text, created, statusSource)
 
+```
+
+
 #Plot time series from the date created. with legends.   
+
+```{r}
 ggplot(data = trendTweetsDF, aes(x = created)) + geom_histogram(aes(fill = ..count..)) +
   xlab("Time") + ylab("Number of Tweets") +
   scale_fill_gradient(low = "coral", high = "cyan") +
@@ -115,6 +125,10 @@ ggplot(trendTweetsDF[trendTweetsDF$tweetSource != 'others',], aes(tweetSource, f
   ylab("Number of tweets") +
   ggtitle("Type of Device that Users Use")
 
+```
+
+
+```{r}
 #Create a wordcloud from the screenName.
 screen_name <- trendTweetsDF %>%
   select(screenName) %>%
